@@ -33,6 +33,7 @@ latex_preamble2 = br"""
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{soulutf8}
 
 \usepackage[usenames]{color}
 \usepackage{soul}
