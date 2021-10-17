@@ -13,9 +13,13 @@ def read_spex_file(filename):
                                              readable=True,
                                              dir_okay=False),)
                 #help="Spexcript source file (utf8-encoded text)")
-def main(inputfile):
+@click.option('--h', default="none")
+
+def main(inputfile, h):
     """Generate a clean pdf from a spexcript source file (utf-8-encoded)."""
 
+    highlightWord = h
+    
     inputfile = Path(inputfile)
     try:
         spex = read_spex_file(inputfile)
