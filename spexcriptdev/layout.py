@@ -9,6 +9,7 @@ from __future__ import unicode_literals, print_function, division
 from .base import Container
 from abc import ABCMeta, abstractmethod
 from . import text
+from __main__ import highlightWord
 
 class Layout(object):
     """Abstract class for a layout in which content is to be formatted.
@@ -115,7 +116,6 @@ class Block(Container):
     
     def generate_dump(self, target):
         paragraphs = self._contents[0]._contents
-        global highlightWord
         highlight = highlightWord
         if len(paragraphs) > 0:
             #empty blocks (len = 0) are only for tagging people, no output

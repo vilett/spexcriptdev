@@ -2,6 +2,8 @@ from __future__ import unicode_literals, print_function
 import click
 from pathlib import Path
 
+highlightWord = ""
+
 def read_spex_file(filename):
     from .base import load_spexcript
     with open(str(filename), "r", encoding = 'utf8') as f:
@@ -13,9 +15,14 @@ def read_spex_file(filename):
                                              readable=True,
                                              dir_okay=False),)
                 #help="Spexcript source file (utf8-encoded text)")
-def main(inputfile):
+@click.option('-h', '--highlight', default="none")
+
+def main(inputfile, highlight):
     """Generate a clean pdf from a spexcript source file (utf-8-encoded)."""
 
+    global highlightWord
+    highlightWord = highlight
+    
     inputfile = Path(inputfile)
     try:
         spex = read_spex_file(inputfile)

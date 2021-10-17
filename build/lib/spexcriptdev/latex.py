@@ -132,7 +132,7 @@ latex_preamble2 = br"""
 \newcommand{\musicblock}[2]{%
     \noindent
     \begin{minipage}[t]{.22\columnwidth}\flushright\noindent\textbf{#1\vfill}\end{minipage}
-    \begin{minipage}[t]{.78\columnwidth} \hl{#2}
+    \begin{minipage}[t]{.78\columnwidth} #2
     %if(bufi >= bufsize)
     %\qed
     \end{minipage}\vspace{1.3mm}\par
@@ -264,13 +264,19 @@ class Spextex(object):
              self._process_string(char_delimiter.join(names)) +
              postfix, text))
         
-    def block(self, names, paragraphs):
+    def block(self, names, paragraphs, highl):
+    
         prefix = ""
         char_delimiter = r"\hspace{0.1mm}&\hspace{0.1mm}"
         postfix = ":"
         text = self._format_paragraphs(paragraphs) + "\n"
         if len(names) == 0:
-            self.latex_data.append(r"\anonymousblock{%s}" % text)
+            if text.find(highl) != -1:
+                prefix = "\hl{"
+                postfix = "}"
+                self.latex_data.append(r"\anonymousblock{%s}" % (prefix + text + postfix))  # stage instructions
+            else:
+                self.latex_data.append(r"\anonymousblock{%s}" % text)  # stage instructions
         else:
             self.latex_data.append(r"\namedblock{%s}{%s}" %  
                 (prefix + 

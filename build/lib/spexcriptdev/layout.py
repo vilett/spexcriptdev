@@ -9,6 +9,7 @@ from __future__ import unicode_literals, print_function, division
 from .base import Container
 from abc import ABCMeta, abstractmethod
 from . import text
+from __main__ import highlightWord
 
 class Layout(object):
     """Abstract class for a layout in which content is to be formatted.
@@ -85,6 +86,7 @@ class Block(Container):
         labels = title_data[0]
         names = self.parent.get_name_dict()
         self.characters = [names.get(l,l) for l in labels if l != ""]
+
         #TODO: save references to Character objects instead?
 
     def get_characters(self):
@@ -114,9 +116,10 @@ class Block(Container):
     
     def generate_dump(self, target):
         paragraphs = self._contents[0]._contents
+        highlight = highlightWord
         if len(paragraphs) > 0:
             #empty blocks (len = 0) are only for tagging people, no output
-            target.block(self.characters, paragraphs)
+            target.block(self.characters, paragraphs, highlight)
     
     def generate_characters(self, target):
         pass
