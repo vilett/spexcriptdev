@@ -15,7 +15,7 @@ def read_spex_file(filename):
                                              readable=True,
                                              dir_okay=False),)
                 #help="Spexcript source file (utf8-encoded text)")
-@click.option('-h', '--highlight', default="none")
+@click.option('-h', '--highlight', default="")
 
 def main(inputfile, highlight):
     """Generate a clean pdf from a spexcript source file (utf-8-encoded)."""

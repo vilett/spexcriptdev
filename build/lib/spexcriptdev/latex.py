@@ -39,8 +39,11 @@ latex_preamble2 = br"""
 \usepackage{soul}
 \usepackage{wasysym}
 
+
 \addtolength\columnsep{0.5cm}
 \usepackage[portrait, left=1.4cm, top=1.5cm, right=1.4cm, nohead]{geometry}
+
+\setlength\fboxrule{0.4pt} % box line width
 
 \newcommand{\scripttitle}[1]{
     %\twocolumn
@@ -92,7 +95,7 @@ latex_preamble2 = br"""
 \newcommand{\scenetitle}[3]{
 
     \vspace{0.4cm}
-    \pagebreak[3]\begin{center}\needspace{3cm}\pagebreak[3]\framebox{\begin{minipage}{.87\columnwidth}
+    \pagebreak[3]\begin{center}\needspace{3cm}\pagebreak[3]\fbox{\begin{minipage}{.87\columnwidth}
     {\Large \bf \texttt{#1}}
     #2
     
@@ -118,6 +121,17 @@ latex_preamble2 = br"""
     %\qed
     \end{minipage}\vspace{1.6mm}\par
 
+}
+
+\newcommand{\anonymousblockbox}[1]{%
+    \setlength\fboxrule{2pt}
+    \noindent
+    \fbox{\begin{minipage}[t]{1\columnwidth}\it
+    #1
+    %if(bufi >= bufsize)
+    %\qed
+    \end{minipage}}\vspace{1.6mm}\par
+    \setlength\fboxrule{0.4pt} % set line width back to initial for the following boxes
 }
 
 \newcommand{\namedblock}[2]{%
@@ -272,10 +286,12 @@ class Spextex(object):
         postfix = ":"
         text = self._format_paragraphs(paragraphs) + "\n"
         if len(names) == 0:
-            if text.find(highl) != -1:
-                prefix = "\hl{"
-                postfix = "}"
-                self.latex_data.append(r"\anonymousblock{%s}" % (prefix + text + postfix))  # stage instructions
+            if highl and text.find(highl) != -1:
+                #prefix = "\hl{"
+                #postfix = "}"
+                prefix = ""
+                postfix = ""
+                self.latex_data.append(r"\anonymousblockbox{%s}" % (prefix + text + postfix))  # stage instructions highlighted
             else:
                 self.latex_data.append(r"\anonymousblock{%s}" % text)  # stage instructions
         else:
