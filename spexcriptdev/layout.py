@@ -225,7 +225,7 @@ class Section(Container):
         
         self._generate_title(target)
         
-        for c in self._contents[1:]:
+        for c in self._contents[1:]: # This is where the magic happens
             c.generate_script(target)
         
         if not self.contains_sections():
